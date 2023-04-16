@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class CornerSquare extends Square {
-
     public CornerSquare(String suit, int rank, String imagePath, int id) {
         super(suit, rank, imagePath, id);
         addMouseListener(new MouseAdapter() {
@@ -25,6 +24,8 @@ public class CornerSquare extends Square {
                 }
             }
         });
-    }
-}
+
+    }// CornerSquare
+
+} // class
 

@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MiddleSquare extends Square {
-
     public MiddleSquare(String suit, int rank, String imagePath, int id) {
         super(suit, rank, imagePath, id);
         addMouseListener(new MouseAdapter() {
@@ -25,5 +24,7 @@ public class MiddleSquare extends Square {
                 }
             }
         });
-    }
-}
+
+    } // MiddleSquare
+
+} // class

@@ -23,5 +23,7 @@ public class Square extends Card {
         if (card != null) {
             card.paint(g);
         }
-    }
-}
+
+    }// paintComponent
+
+} // class

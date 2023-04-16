@@ -8,6 +8,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class Menu extends JMenuBar {
+    /**
+     * Creates a menu on the top of the panel
+     * Options:
+     *   Game - New game
+     *   Help - About, Game rules
+     */
     public Menu() {
         JMenu fileMenu = new JMenu("Game");
         JMenuItem newGameMenuItem = new JMenuItem("New Game");
@@ -50,6 +56,8 @@ public class Menu extends JMenuBar {
 
         add(fileMenu);
         add(helpMenu);
-    }
-}
+
+    } // Menu
+
+} // class
 

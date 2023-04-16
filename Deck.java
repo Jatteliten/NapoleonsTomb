@@ -27,7 +27,7 @@ public class Deck {
                 cards.add(card);
             }
         }
-    }
+    } // Deck
 
     public ArrayList<Card> getCards() {
         return cards;
@@ -35,7 +35,8 @@ public class Deck {
     public Card drawCard() {
         int randomIndex = (int) (Math.random() * cards.size());
         return cards.remove(randomIndex);
-    }
+    } // drawCard
+
     public Card drawFixedCard() {
         return cards.remove(0);
     }
@@ -44,5 +45,6 @@ public class Deck {
         this.cards.addAll(discard);
         // shuffle the deck
         Collections.shuffle(this.cards);
-    }
-}
+    } // shuffleDiscard
+
+} // class

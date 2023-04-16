@@ -16,5 +16,7 @@ public class Button extends JButton {
         setBounds(Board.STANDARD_POSITION + (Board.HORIZONTAL_OFFSET * 4),
                 Board.STANDARD_POSITION + (Board.VERTICAL_OFFSET * 3) + (Board.VERTICAL_OFFSET / 2), Board.CARD_WIDTH, Board.CARD_HEIGHT);
         addActionListener(actionListener);
-    }
-}
+
+    } //Button
+
+} // class

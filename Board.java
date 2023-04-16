@@ -14,8 +14,8 @@ public class Board extends JFrame{
     static final int OFFSET = 4;
     static final int HORIZONTAL_OFFSET = CARD_WIDTH + OFFSET;
     static final int VERTICAL_OFFSET = CARD_HEIGHT + OFFSET;
-    static final int squareWidth = CARD_WIDTH+2;
-    static final int squareHeight = CARD_HEIGHT+2;
+    static final int squareWidth = CARD_WIDTH + 2;
+    static final int squareHeight = CARD_HEIGHT + 2;
     public boolean mouseClicked;
     private ArrayList<Card> discard = new ArrayList<>();
     private ArrayList<Card> winChecker = new ArrayList<>();
@@ -58,7 +58,7 @@ public class Board extends JFrame{
                 cardPanel.add(cornerSquare);
             }
         }
-        // create cardinal squares
+        // create cardinal direction squares
         for (int i = 0; i < 3; i++){
             if (i == 1) {
                 for (int j = 0; j < 3; j+=2) {
@@ -200,12 +200,9 @@ public class Board extends JFrame{
      * Moves card position to an empty square and repaints the cardPanel to reflect the change
      */
     public void moveCard(Card card, Square square){
-        // move the clicked card to the square
         card.setBounds(square.getX(), square.getY(), CARD_WIDTH, CARD_HEIGHT);
         cardPanel.setComponentZOrder(card, 0);
-        // reset the clicked card and mouse clicked flags
         mouseClicked = false;
-        // redraw the square and the card panel
         cardPanel.repaint();
     } // moveCard
 
@@ -216,22 +213,20 @@ public class Board extends JFrame{
         originCard.setBounds(squareLocation.getX(), squareLocation.getY(), CARD_WIDTH, CARD_HEIGHT);
         cardPanel.setComponentZOrder(originCard, 0);
         originCard.setId(destinationCard.getId());
-    }
+    } // replaceCard
 
     /**
      * Checks if the player has won
      * When there are a total of 58 card elements that do not have an ID of 0 or 2, the player has won
      * The squares carry their own ID, so they are counted too
+     * If the player has won, display "You win!" at the bottom of the window
      */
     public void checkWin(){
         for(Component c : cardPanel.getComponents()) {
-            // check if the component is a card
             if(c instanceof Card card) {
-                // check if the card is assigned to a square
                 if (card.getId() == 1 && card.getId() == 3){
                     winChecker.add(card);
                     if (winChecker.size() == 58){
-                        // display text if win
                         JLabel winLabel = new JLabel("You win!");
                         winLabel.setBounds(STANDARD_POSITION*5/2, STANDARD_POSITION*15, STANDARD_POSITION*8, STANDARD_POSITION+20);
                         winLabel.setFont(new Font("Serif", Font.PLAIN, 40));
@@ -241,15 +236,16 @@ public class Board extends JFrame{
             }
         }
         winChecker.clear();
-    }
+    } // checkWin
 
+    /**
+     * Resets the game
+     * removes all elements on the current board, creates a new one and then repaints it.
+     */
     public void resetGame() {
-        // Remove all the cards from the card panel
         cardPanel.removeAll();
-        // Call the Board constructor to create a new board and add it to the frame
         new Board();
-        // Repaint the card panel to show the new board
         cardPanel.repaint();
-    }
+    } // resetGame
 
 } // class

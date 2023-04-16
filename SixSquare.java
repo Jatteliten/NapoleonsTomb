@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class SixSquare extends Square {
-
     public SixSquare(String suit, int rank, String imagePath, int id) {
         super(suit, rank, imagePath, id);
         addMouseListener(new MouseAdapter() {
@@ -25,5 +24,7 @@ public class SixSquare extends Square {
                 }
             }
         });
-    }
-}
+
+    } //SixSquare
+
+} //class

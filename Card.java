@@ -25,7 +25,7 @@ public class Card extends JPanel {
             throw new RuntimeException(e);
         }
         this.id = Id;
-    }
+    } // Card
 
     public String getSuit(){
         return suit;
@@ -71,5 +71,7 @@ public class Card extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, null);
-    }
-}
+
+    } // paintComponent
+
+} //class
