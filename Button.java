@@ -1,0 +1,19 @@
+// Daniel Isaksson
+// Daniel.isaksson90@gmail.com
+package NapoleonsGrave;
+
+import javax.swing.*;
+import java.awt.event.ActionListener;
+
+/**
+ * Add image, bounds and ActionListener to a button
+*/
+public class Button extends JButton {
+
+    public Button(ActionListener actionListener, String imagePath) {
+        super(new ImageIcon("images/" + imagePath +".gif"));
+        setBounds(Board.STANDARD_POSITION + (Board.HORIZONTAL_OFFSET * 4),
+                Board.STANDARD_POSITION + (Board.VERTICAL_OFFSET * 3) + (Board.VERTICAL_OFFSET / 2), Board.CARD_WIDTH, Board.CARD_HEIGHT);
+        addActionListener(actionListener);
+    }
+}
