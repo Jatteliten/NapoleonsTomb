@@ -211,7 +211,6 @@ public class Board extends JFrame{
 
     /**
      * Moves a card on top of another card
-     * It also increments the win counter
      */
     public void replaceCard(Card originCard, Card destinationCard, Card squareLocation){
         originCard.setBounds(squareLocation.getX(), squareLocation.getY(), CARD_WIDTH, CARD_HEIGHT);
@@ -219,12 +218,17 @@ public class Board extends JFrame{
         originCard.setId(destinationCard.getId());
     }
 
+    /**
+     * Checks if the player has won
+     * When there are a total of 58 card elements that do not have an ID of 0 or 2, the player has won
+     * The squares carry their own ID, so they are counted too
+     */
     public void checkWin(){
         for(Component c : cardPanel.getComponents()) {
             // check if the component is a card
             if(c instanceof Card card) {
                 // check if the card is assigned to a square
-                if (card.getId() != 0 && card.getId() != 2){
+                if (card.getId() == 1 && card.getId() == 3){
                     winChecker.add(card);
                     if (winChecker.size() == 58){
                         // display text if win
