@@ -43,9 +43,17 @@ public class Board extends JFrame{
         Deck deck = new Deck();
 
         // create diagonal squares
+        String rotateImageString;
         for (int i = 0; i < 2; i++){
             for (int j = 0; j < 3; j+=2) {
-                CornerSquare cornerSquare = new CornerSquare("null", 0, "cornerSquare", 1);
+                if (i == 0 && j == 0 || i == 1 && j == 2){
+                    rotateImageString = "L";
+                }
+                else{
+                   rotateImageString = "R";
+                }
+                CornerSquare cornerSquare = new CornerSquare("null", 0,
+                        "cornerSquare" + rotateImageString, 1);
                 cornerSquare.setBounds(STANDARD_POSITION + (i * 2 * HORIZONTAL_OFFSET),
                         STANDARD_POSITION + (j*VERTICAL_OFFSET), squareWidth, squareHeight);
                 cardPanel.add(cornerSquare);
