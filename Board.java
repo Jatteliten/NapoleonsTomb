@@ -2,13 +2,9 @@
 // Daniel.isaksson90@gmail.com
 package NapoleonsGrave;
 
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.BorderFactory;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class Board extends JFrame{
@@ -171,7 +167,6 @@ public class Board extends JFrame{
             mouseClicked = true;
             clickedCard = card;
             clickedCard.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-            System.out.println("click");
         }
         else {
             if (clickedCard != null) {
@@ -193,8 +188,6 @@ public class Board extends JFrame{
                 if (tempCard.getId() == 4 && clickedCard.getRank() == 6){
                     replaceCard(clickedCard, tempCard, card);
                 }
-                System.out.println("clock");
-
                 tempCard = null;
                 clickedCard = null;
                 mouseClicked = false;
@@ -234,7 +227,11 @@ public class Board extends JFrame{
                 if (card.getId() != 0 && card.getId() != 2){
                     winChecker.add(card);
                     if (winChecker.size() == 58){
-                        System.out.println("You win!");
+                        // display text if win
+                        JLabel winLabel = new JLabel("You win!");
+                        winLabel.setBounds(STANDARD_POSITION*5/2, STANDARD_POSITION*15, STANDARD_POSITION*8, STANDARD_POSITION+20);
+                        winLabel.setFont(new Font("Serif", Font.PLAIN, 40));
+                        cardPanel.add(winLabel);
                     }
                 }
             }
