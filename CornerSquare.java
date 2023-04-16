@@ -2,7 +2,7 @@
 // Daniel.isaksson90@gmail.com
 package NapoleonsGrave;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

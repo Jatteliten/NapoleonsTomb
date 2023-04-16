@@ -2,7 +2,10 @@
 // Daniel.isaksson90@gmail.com
 package NapoleonsGrave;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class Menu extends JMenuBar {
     public Menu() {

@@ -2,7 +2,7 @@
 // Daniel.isaksson90@gmail.com
 package NapoleonsGrave;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 public class Square extends Card {
     public Square(String suit, int rank, String imagePath, int id) {

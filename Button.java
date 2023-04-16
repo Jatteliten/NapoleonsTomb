@@ -2,7 +2,8 @@
 // Daniel.isaksson90@gmail.com
 package NapoleonsGrave;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import java.awt.event.ActionListener;
 
 /**

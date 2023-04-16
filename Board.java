@@ -2,8 +2,11 @@
 // Daniel.isaksson90@gmail.com
 package NapoleonsGrave;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.BorderFactory;
+import java.awt.Component;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ public class Board extends JFrame{
     static final int VERTICAL_OFFSET = CARD_HEIGHT + OFFSET;
     static final int squareWidth = CARD_WIDTH+2;
     static final int squareHeight = CARD_HEIGHT+2;
-    public boolean mouseClicked = false;
+    public boolean mouseClicked;
     private ArrayList<Card> discard = new ArrayList<>();
     private ArrayList<Card> winChecker = new ArrayList<>();
     public Card clickedCard;
