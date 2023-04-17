@@ -1,6 +1,6 @@
 // Daniel Isaksson
 // Daniel.isaksson90@gmail.com
-package NapoleonsGrave;
+package NapoleonsTomb;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;

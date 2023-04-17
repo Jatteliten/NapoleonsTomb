@@ -1,6 +1,6 @@
 // Daniel Isaksson
 // Daniel.isaksson90@gmail.com
-package NapoleonsGrave;
+package NapoleonsTomb;
 
 public class Main {
     public static void main(String[] args) {
