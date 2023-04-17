@@ -14,8 +14,6 @@ public class Board extends JFrame{
     static final int OFFSET = 4;
     static final int HORIZONTAL_OFFSET = CARD_WIDTH + OFFSET;
     static final int VERTICAL_OFFSET = CARD_HEIGHT + OFFSET;
-    static final int squareWidth = CARD_WIDTH + 2;
-    static final int squareHeight = CARD_HEIGHT + 2;
     public boolean mouseClicked;
     private ArrayList<Card> discard = new ArrayList<>();
     private ArrayList<Card> winChecker = new ArrayList<>();
@@ -34,6 +32,8 @@ public class Board extends JFrame{
         // create a panel to hold the cards and squares
         cardPanel = new JLayeredPane();
         cardPanel.setLayout(null);
+        cardPanel.setOpaque(true);
+        cardPanel.setBackground(new Color(92, 178, 131));
         add(cardPanel);
         // create top menu
         Menu menu = new Menu();
@@ -54,7 +54,7 @@ public class Board extends JFrame{
                 CornerSquare cornerSquare = new CornerSquare("null", 0,
                         "cornerSquare" + rotateImageString, 1);
                 cornerSquare.setBounds(STANDARD_POSITION + (i * 2 * HORIZONTAL_OFFSET),
-                        STANDARD_POSITION + (j*VERTICAL_OFFSET), squareWidth, squareHeight);
+                        STANDARD_POSITION + (j*VERTICAL_OFFSET), CARD_WIDTH, CARD_HEIGHT);
                 cardPanel.add(cornerSquare);
             }
         }
@@ -64,24 +64,24 @@ public class Board extends JFrame{
                 for (int j = 0; j < 3; j+=2) {
                     CardinalSquare cardinalSquare = new CardinalSquare("null", 0, "cardinalSquareH", 2);
                     cardinalSquare.setBounds(STANDARD_POSITION + (j * HORIZONTAL_OFFSET), STANDARD_POSITION + (VERTICAL_OFFSET),
-                            squareWidth, squareHeight);
+                            CARD_WIDTH, CARD_HEIGHT);
                     cardPanel.add(cardinalSquare);
                 }
             }
             else {
                 CardinalSquare cardinalSquare = new CardinalSquare("null", 0, "cardinalSquareV", 2);
                 cardinalSquare.setBounds(STANDARD_POSITION + HORIZONTAL_OFFSET, STANDARD_POSITION + (i * VERTICAL_OFFSET),
-                        squareWidth, squareHeight);
+                        CARD_WIDTH, CARD_HEIGHT);
                 cardPanel.add(cardinalSquare);
             }
         }
         // create the middle square and six square
         MiddleSquare middleSquare = new MiddleSquare("null", 0, "middleSquare", 3);
         middleSquare.setBounds(STANDARD_POSITION + (HORIZONTAL_OFFSET), STANDARD_POSITION + (VERTICAL_OFFSET),
-                squareWidth, squareHeight);
+                CARD_WIDTH, CARD_HEIGHT);
         SixSquare sixSquare = new SixSquare("null", 0, "sixSquare", 4);
         sixSquare.setBounds(STANDARD_POSITION + (3 * HORIZONTAL_OFFSET), STANDARD_POSITION + (VERTICAL_OFFSET),
-                squareWidth, squareHeight);
+                CARD_WIDTH, CARD_HEIGHT);
 
         cardPanel.add(middleSquare);
         cardPanel.add(sixSquare);
@@ -203,7 +203,6 @@ public class Board extends JFrame{
         card.setBounds(square.getX(), square.getY(), CARD_WIDTH, CARD_HEIGHT);
         cardPanel.setComponentZOrder(card, 0);
         mouseClicked = false;
-        cardPanel.repaint();
     } // moveCard
 
     /**

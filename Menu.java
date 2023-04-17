@@ -28,11 +28,11 @@ public class Menu extends JMenuBar {
         fileMenu.add(exitMenuItem);
 
         JMenu helpMenu = new JMenu("Help");
-        JMenuItem aboutMenuItem = new JMenuItem("About");
-        aboutMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(null, "Created by\nDaniel Isaksson - 2023"));
+        JMenuItem aboutMenuItem = new JMenuItem("Created by");
+        aboutMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(null, "Daniel Isaksson - 2023"));
         JMenuItem gameRulesMenuItem = new JMenuItem("Game rules");
         gameRulesMenuItem.addActionListener(e -> JOptionPane.showMessageDialog(null, """
-                Napoleon's tomb rules:
+                Napoleon's tomb:
 
                 There are 52 cards in the deck.
                 To win, all cards must be located on either
@@ -48,6 +48,8 @@ public class Menu extends JMenuBar {
                 
                 The cardinal direction squares accepts any card,
                 but only one card at a time.
+                
+                You are allowed to shuffle your drawn hand into your deck once.
                 
                 Good luck!
                 """, "Game rules", JOptionPane.INFORMATION_MESSAGE));

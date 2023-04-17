@@ -6,11 +6,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 
-/**
- * Add image, bounds and ActionListener to a button
-*/
-public class Button extends JButton {
 
+ // add image, bounds and ActionListener to a button
+public class Button extends JButton {
     public Button(ActionListener actionListener, String imagePath) {
         super(new ImageIcon("images/" + imagePath +".gif"));
         setBounds(Board.STANDARD_POSITION + (Board.HORIZONTAL_OFFSET * 4),
