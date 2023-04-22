@@ -20,6 +20,7 @@ public class CardinalSquare extends Square {
                     if (board.tempCard.getRank() == 0) {
                         board.moveCard(board.clickedCard, CardinalSquare.this);
                         board.clickedCard.setId(id);
+                        board.checkDrawAllowed();
                     }
                 }
             }

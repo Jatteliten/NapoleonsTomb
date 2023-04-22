@@ -14,7 +14,8 @@ public class Board extends JFrame{
     static final int OFFSET = 4;
     static final int HORIZONTAL_OFFSET = CARD_WIDTH + OFFSET;
     static final int VERTICAL_OFFSET = CARD_HEIGHT + OFFSET;
-    public boolean mouseClicked;
+    final int WIN_AMOUNT = 57;
+    private int setup = 0;
     private ArrayList<Card> discard = new ArrayList<>();
     private ArrayList<Card> winChecker = new ArrayList<>();
     public Card clickedCard;
@@ -22,7 +23,10 @@ public class Board extends JFrame{
     private JLayeredPane cardPanel;
     Button reshuffleButton;
     Button deckButton;
+    public boolean mouseClicked;
     private boolean shuffleAllowed = true;
+    private boolean drawAllowed = true;
+    private boolean fixedGame;
 
     public Board() {
         setTitle("Napoleon's Tomb");
@@ -35,12 +39,26 @@ public class Board extends JFrame{
         cardPanel.setOpaque(true);
         cardPanel.setBackground(new Color(92, 178, 131));
         add(cardPanel);
+
         // create top menu
         Menu menu = new Menu();
+        menu.setBoard(this);
         setJMenuBar(menu);
-        // create the deck
+
+        // create deck
         Deck deck = new Deck();
 
+        // create game board
+        squares();
+        buttons(deck);
+
+    } // Board
+
+    /**
+     * Creates the squares where the player can place cards.
+     * The squares have a different ID and a different image depending on their location.
+     */
+    public void squares(){
         // create diagonal squares
         String rotateImageString;
         for (int i = 0; i < 2; i++){
@@ -49,7 +67,7 @@ public class Board extends JFrame{
                     rotateImageString = "L";
                 }
                 else{
-                   rotateImageString = "R";
+                    rotateImageString = "R";
                 }
                 CornerSquare cornerSquare = new CornerSquare("null", 0,
                         "cornerSquare" + rotateImageString, 1);
@@ -85,8 +103,14 @@ public class Board extends JFrame{
 
         cardPanel.add(middleSquare);
         cardPanel.add(sixSquare);
+    }
 
-
+    /**
+     * Creates the reshuffle button and deck button, which allows you to draw cards.
+     * Deck button is replaced by the reshuffle button when all cards are drawn, which allows you to reshuffle
+     *  your deck with cards currently in the discard pile.
+     */
+    public void buttons(Deck deck){
         // create the reshuffleButton, which is only displayed when the deck is out of cards
         reshuffleButton = new Button(e -> {
             for(Component c : cardPanel.getComponents()) {
@@ -99,65 +123,73 @@ public class Board extends JFrame{
                     }
                 }
             }
-            shuffleAllowed = false;
+
             deck.shuffleDiscard(discard);
-            // clear the discard list
-            discard.clear();
-            // remove all the cards with and id of 0 from the cardPanel
             cardPanel.remove(reshuffleButton);
-            cardPanel.add(deckButton);
+            if (discard.size() != 0) { // If the game is completed without shuffling once, don't add another deck button
+                cardPanel.add(deckButton);
+            }
+
+            discard.clear();
             cardPanel.repaint();
+            shuffleAllowed = false;
+            checkDrawAllowed();
         }, "reshuffle"); // reshuffleButton
 
         // create the deck button and the functionality to display cards with it
         deckButton = new Button(e -> {
-            // draw a card from the deck
-            Card card = deck.drawCard();
+            if (drawAllowed) {
+                // draw a card from the deck
+                Card card = deck.drawCard(fixedGame);
 
-            // set the drawn card's image to the label
-            card.setBounds(STANDARD_POSITION+(HORIZONTAL_OFFSET*3),
-                    STANDARD_POSITION+(VERTICAL_OFFSET*3) + (Board.VERTICAL_OFFSET / 2), CARD_WIDTH, CARD_HEIGHT);
+                if (card.getRank() < 6 || card.getRank() > 7) {
+                    // checks if four cards have been drawn. Relevant to checkDrawAllowed function
+                    setup++;
+                }
 
-            // add the mouse listener to the card object
-            if (shuffleAllowed){
-                card.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        Board.this.mouseClicked(card);
-                    }
-                });
-            }
+                // set the drawn card's image to the label
+                card.setBounds(STANDARD_POSITION + (HORIZONTAL_OFFSET * 3),
+                        STANDARD_POSITION + (VERTICAL_OFFSET * 3) + (Board.VERTICAL_OFFSET / 2), CARD_WIDTH, CARD_HEIGHT);
 
-            // add a card and set it on top of the other cards in hand, if any are present
-            cardPanel.add(card, new int[1]);
-            cardPanel.setComponentZOrder(card, 0);
-            cardPanel.revalidate();
-            cardPanel.repaint();
+                // add the mouse listener to the card object
+                if (shuffleAllowed) {
+                    card.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            Board.this.mouseClicked(card);
+                        }
+                    });
+                }
 
-            if (deck.getCards().isEmpty() && shuffleAllowed) {
-                // remove the deck button
-                cardPanel.remove(deckButton);
-                // add the reshuffle button in the same position
-                reshuffleButton.setBounds(deckButton.getBounds());
-                cardPanel.add(reshuffleButton);
+                // add a card and set it on top of the other cards in hand, if any are present
+                cardPanel.add(card, new int[1]);
+                cardPanel.setComponentZOrder(card, 0);
+                cardPanel.revalidate();
                 cardPanel.repaint();
-            }
-            if (deck.getCards().isEmpty() && !shuffleAllowed){
-            cardPanel.remove(deckButton);
-            }
 
+                if (deck.getCards().isEmpty() && shuffleAllowed) {
+                    // remove the deck button
+                    cardPanel.remove(deckButton);
+                    // add the reshuffle button in the same position
+                    reshuffleButton.setBounds(deckButton.getBounds());
+                    cardPanel.add(reshuffleButton);
+                    cardPanel.repaint();
+                }
+                if (deck.getCards().isEmpty() && !shuffleAllowed) {
+                    cardPanel.remove(deckButton);
+                }
+            }
+            checkDrawAllowed();
         },"b1fv"); // deckButton
 
         // add the deck button to the panel
         cardPanel.add(deckButton);
-        setVisible(true);
-
-    } // Board
+    }
 
     /**
-     * Sets the clicked card when a card has not been clicked yet
-     * When clicking a second time - checks if card is allowed to be placed on top of another card -
-     * Cards have an id depending on what square it is set upon
+     * Sets the clicked card when a card has not been clicked yet.
+     * When clicking a second time, checks if card is allowed to be placed on top of another card.
+     * Cards have an id depending on what square it is set upon.
      * Checks what square you want to place a card on via the id and then decides if the move is allowed
      *  by comparing the ranks of the cards.
      */
@@ -166,7 +198,7 @@ public class Board extends JFrame{
             tempCard = null;
             mouseClicked = true;
             clickedCard = card;
-            clickedCard.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+            clickedCard.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
         }
         else {
             if (clickedCard != null) {
@@ -194,10 +226,11 @@ public class Board extends JFrame{
                 checkWin();
             }
         }
+        checkDrawAllowed();
     } // mouseClicked
 
     /**
-     * Moves card position to an empty square and repaints the cardPanel to reflect the change
+     * Moves card position to an empty square.
      */
     public void moveCard(Card card, Square square){
         card.setBounds(square.getX(), square.getY(), CARD_WIDTH, CARD_HEIGHT);
@@ -206,7 +239,7 @@ public class Board extends JFrame{
     } // moveCard
 
     /**
-     * Moves a card on top of another card
+     * Moves a card on top of another card.
      */
     public void replaceCard(Card originCard, Card destinationCard, Card squareLocation){
         originCard.setBounds(squareLocation.getX(), squareLocation.getY(), CARD_WIDTH, CARD_HEIGHT);
@@ -215,21 +248,26 @@ public class Board extends JFrame{
     } // replaceCard
 
     /**
-     * Checks if the player has won
-     * When there are a total of 58 card elements that do not have an ID of 0 or 2, the player has won
-     * The squares carry their own ID, so they are counted too
-     * If the player has won, display "You win!" at the bottom of the window
+     * Checks if the player has won.
+     * When there are a total of 57 card elements that have an ID of 1 or 3, the player has won.
+     * The squares carry their own ID, so they are counted too.
+     * If the player has won, display "You win!" at the bottom of the window.
+     * Also removes the buttons, in the case where they are still present.
      */
     public void checkWin(){
         for(Component c : cardPanel.getComponents()) {
             if(c instanceof Card card) {
-                if (card.getId() == 1 && card.getId() == 3){
+                if (card.getId() == 1 || card.getId() == 3){
                     winChecker.add(card);
-                    if (winChecker.size() == 58){
+                    System.out.println(winChecker.size());
+                    if (winChecker.size() == WIN_AMOUNT){
                         JLabel winLabel = new JLabel("You win!");
                         winLabel.setBounds(STANDARD_POSITION*5/2, STANDARD_POSITION*15, STANDARD_POSITION*8, STANDARD_POSITION+20);
                         winLabel.setFont(new Font("Serif", Font.PLAIN, 40));
                         cardPanel.add(winLabel);
+                        cardPanel.remove(deckButton);
+                        cardPanel.remove(reshuffleButton);
+                        cardPanel.repaint();
                     }
                 }
             }
@@ -238,13 +276,57 @@ public class Board extends JFrame{
     } // checkWin
 
     /**
+     * Checks if less than four cards have been drawn since the start of the game, if there are any empty spots
+     *  in the cardinal squares and if a card is in the discard pile.
+     * If all three conditions are true, then another card draw is not allowed.
+     */
+    public void checkDrawAllowed() {
+        int placedCards = 0;
+        boolean discardPile = false;
+        for (Component c : cardPanel.getComponents()) {
+            if (c instanceof Card card) {
+                if (card.getId() == 2) {
+                    placedCards++;
+                }
+                if (card.getId() == 0){
+                    discardPile = true;
+                }
+            }
+        }
+        if (placedCards < 8 && discardPile && setup >= 4){
+            drawAllowed = false;
+            deckButton.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+        }
+        else{
+            drawAllowed = true;
+            deckButton.setBorder(null);
+        }
+    }
+
+    /**
      * Resets the game
      * removes all elements on the current board, creates a new one and then repaints it.
+     * A fixed game starts drawing cards from index 3 in the deck, which is always winnable.
      */
-    public void resetGame() {
+    public void resetGame(Boolean fixed) {
+        // set game state to a new game
+        fixedGame = fixed;
+        mouseClicked = false;
+        discard.clear();
+        clickedCard = null;
+        tempCard = null;
+        shuffleAllowed = true;
+        drawAllowed = true;
+        setup = 0;
+
+        // remove all objects from the card panel
         cardPanel.removeAll();
-        new Board();
+        // create game board
+        Deck deck = new Deck();
+        squares();
+        buttons(deck);
         cardPanel.repaint();
+        checkDrawAllowed();
     } // resetGame
 
 } // class

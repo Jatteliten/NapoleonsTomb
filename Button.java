@@ -6,8 +6,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 
-
- // add image, bounds and ActionListener to a button
 public class Button extends JButton {
     public Button(ActionListener actionListener, String imagePath) {
         super(new ImageIcon("images/" + imagePath +".gif"));

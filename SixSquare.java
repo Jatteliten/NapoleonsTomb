@@ -20,6 +20,7 @@ public class SixSquare extends Square {
                     if (board.clickedCard.getRank() == 6) {
                         board.moveCard(board.clickedCard, SixSquare.this);
                         board.clickedCard.setId(id);
+                        board.checkDrawAllowed();
                     }
                 }
             }

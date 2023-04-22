@@ -32,14 +32,23 @@ public class Deck {
     public ArrayList<Card> getCards() {
         return cards;
     }
-    public Card drawCard() {
-        int randomIndex = (int) (Math.random() * cards.size());
-        return cards.remove(randomIndex);
+
+    public Card drawCard(boolean fixed) {
+        if (!fixed) {
+            int randomIndex = (int) (Math.random() * cards.size());
+            return cards.remove(randomIndex);
+        }
+        else {
+            try {
+            return cards.remove(3);
+            }
+            catch (IndexOutOfBoundsException error){
+                return cards.remove(0);
+            }
+
+        }
     } // drawCard
 
-    public Card drawFixedCard() {
-        return cards.remove(0);
-    }
     public void shuffleDiscard(ArrayList<Card> discard) {
         // add all the cards from the discard list to the deck
         this.cards.addAll(discard);

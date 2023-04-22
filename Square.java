@@ -9,6 +9,7 @@ public class Square extends Card {
         super(suit, rank, imagePath, id);
     }
 
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -20,6 +20,7 @@ public class CornerSquare extends Square {
                     if (board.clickedCard.getRank() == 7) {
                         board.moveCard(board.clickedCard, CornerSquare.this);
                         board.clickedCard.setId(id);
+                        board.checkDrawAllowed();
                     }
                 }
             }

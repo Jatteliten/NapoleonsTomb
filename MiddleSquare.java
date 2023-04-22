@@ -20,6 +20,7 @@ public class MiddleSquare extends Square {
                     if (board.clickedCard.getRank() == 6) {
                         board.moveCard(board.clickedCard, MiddleSquare.this);
                         board.clickedCard.setId(id);
+                        board.checkDrawAllowed();
                     }
                 }
             }
