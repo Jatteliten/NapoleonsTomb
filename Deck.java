@@ -3,7 +3,6 @@
 package NapoleonsTomb;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Deck {
     private ArrayList<Card> cards;
@@ -31,12 +30,22 @@ public class Deck {
 
     public ArrayList<Card> getCards() {
         return cards;
-    }
+    } //getCards
 
-    public Card drawCard(boolean fixed) {
-        if (!fixed) {
+    /**
+     * Draws cards from the deck.
+     * If the deck is not in a fixed order, draws a random card from the deck.
+     * If the deck has been gone through once, draw cards in the same order as the first time through.
+     * If the deck is in a fixed order, draw from the fourth card in the deck and keep going.
+     *  If the deck is fixed and there are only four cards left, draw from the top of the deck.
+     */
+    public Card drawCard(boolean fixed, boolean firstShuffle) {
+        if (!fixed && firstShuffle) {
             int randomIndex = (int) (Math.random() * cards.size());
             return cards.remove(randomIndex);
+        }
+        if (!firstShuffle){
+            return cards.remove(cards.size()-1);
         }
         else {
             try {
@@ -45,15 +54,14 @@ public class Deck {
             catch (IndexOutOfBoundsException error){
                 return cards.remove(0);
             }
-
         }
     } // drawCard
 
+    /**
+     * Create a new deck from the discarded cards in the throw-pile.
+     */
     public void shuffleDiscard(ArrayList<Card> discard) {
-        // add all the cards from the discard list to the deck
         this.cards.addAll(discard);
-        // shuffle the deck
-        Collections.shuffle(this.cards);
     } // shuffleDiscard
 
 } // class

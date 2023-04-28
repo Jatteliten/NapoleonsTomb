@@ -18,14 +18,10 @@ public class Menu extends JMenuBar {
     public Menu() {
         JMenu fileMenu = new JMenu("Game");
         JMenuItem newGameMenuItem = new JMenuItem("New Game");
-        newGameMenuItem.addActionListener(e -> {
-            board.resetGame(false);
-        });
+        newGameMenuItem.addActionListener(e -> board.resetGame(false));
 
         JMenuItem newFixedGameMenuItem = new JMenuItem("New fixed Game");
-        newFixedGameMenuItem.addActionListener(e -> {
-            board.resetGame(true);
-        });
+        newFixedGameMenuItem.addActionListener(e -> board.resetGame(true));
 
         JMenuItem exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.addActionListener(e -> System.exit(0));
