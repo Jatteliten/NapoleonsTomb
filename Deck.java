@@ -44,7 +44,7 @@ public class Deck {
             int randomIndex = (int) (Math.random() * cards.size());
             return cards.remove(randomIndex);
         }
-        if (!firstShuffle){
+        else if (!firstShuffle){
             return cards.remove(cards.size()-1);
         }
         else {

@@ -2,30 +2,22 @@
 // Daniel.isaksson90@gmail.com
 package NapoleonsTomb;
 
-import javax.swing.SwingUtilities;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 public class CardinalSlot extends Slot {
+    final int ALLOWED_CARD = 0;
     public CardinalSlot(String suit, int rank, String imagePath, int id) {
         super(suit, rank, imagePath, id);
-        addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Board board = (Board) SwingUtilities.getWindowAncestor(CardinalSlot.this);
-                board.mouseClicked(CardinalSlot.this);
-
-                if (board.mouseClicked) {
-                    // Any card allowed
-                    if (board.tempCard.getRank() == 0) {
-                        board.moveCard(board.clickedCard, CardinalSlot.this);
-                        board.clickedCard.setId(id);
-                        board.checkDrawAllowed();
-                    }
-                }
-            }
-        });
+        addMouseListenerToSlot();
 
     } // CardinalSlot
+
+    @Override
+    protected void handleMouseClicked(Board board) {
+        // Any card allowed
+        if (board.tempCard.getRank() == ALLOWED_CARD) {
+            board.moveCard(board.clickedCard, this);
+            board.clickedCard.setId(getId());
+            board.checkDrawAllowed();
+        }
+    }
 
 } // class

@@ -323,12 +323,14 @@ public class Board extends JFrame{
 
         // remove all objects from the card panel
         cardPanel.removeAll();
+
         // create game board
         Deck deck = new Deck();
         slots();
         buttons(deck);
         cardPanel.repaint();
         checkDrawAllowed();
+
     } // resetGame
 
 } // class
